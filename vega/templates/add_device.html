@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Добавление устройства</title>
+{% endblock title %}
+{% block links %}
+<style>
+    input:valid {
+    background-color: palegreen;
+}
+
+input:invalid {
+    background-color: lightpink;
+}
+</style>
+{% endblock links %}
+
+
+{% block content %}
+
+<div class="box box-padding">
+    <div id="add_device" class="">
+        {% set flash_msg = get_flashed_messages(with_categories=true) %}
+        {% if flash_msg %}
+        {% for category, message in flash_msg %}
+        <span class="{{ category }}">{{ message }}</span>
+        {% endfor %}
+        {% endif %}
+        <form method="post" class="box">
+            {{ form.hidden_tag() }}
+            <div class="field-body">
+                <div class="field">
+                    {{ form.dev_eui.label(class="label") }}
+                    <div class="control">
+                         {{ form.dev_eui(class="input", pattern="^[0-9a-fA-F]{8}([0-9a-fA-F]{8})$") }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    {{ form.dev_name.label(class="label") }}
+                    <div class="control">
+                         {{ form.dev_name(class="input") }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    {{ form.class_user.label(class="label") }}
+                    <div class="select">
+                        {{ form.class_user() }}
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                 <h3>ABP (or OTAA)</h3>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.dev_address.label(class="label") }}
+                        <div class="control">
+                             {{ form.dev_address(class="input") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.apps_key.label(class="label") }}
+                        <div class="control">
+                             {{ form.apps_key(class="input", pattern="^[0-9a-fA-F]{16}([0-9a-fA-F]{16})$") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.nwks_key.label(class="label") }}
+                        <div class="control">
+                             {{ form.nwks_key(class="input", pattern="^[0-9a-fA-F]{16}([0-9a-fA-F]{16})$") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <h3>OTAA (or ABP)</h3>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.app_eui.label(class="label", pattern="^[0-9a-fA-F]{8}([0-9a-fA-F]{8})$") }}
+                        <div class="control">
+                            {{ form.app_eui(class="input") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.app_key.label(class="label") }}
+                        <div class="control">
+                             {{ form.app_key(class="input", pattern="^[0-9a-fA-F]{16}([0-9a-fA-F]{16})$") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{ form.submit(class="button is-primary") }}
+        </form>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts%}

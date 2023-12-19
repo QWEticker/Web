@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Создание учетной записи</title>
+{% endblock title %}
+{% block links %}
+{% endblock links %}
+
+
+{% block content %}
+
+<div class="box box-padding">
+    <div id="create_user" class="">
+        {% set flash_msg = get_flashed_messages(with_categories=true) %}
+        {% if flash_msg %}
+        {% for category, message in flash_msg %}
+        <span class="{{ category }}">{{ message }}</span>
+        {% endfor %}
+        {% endif %}
+        <form method="post" class="box">
+            {{ form.hidden_tag() }}
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.login.label(class="label") }}
+                    <div class="control">
+                        {{ form.login(class="input") }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.password.label(class="label") }}
+                    <div class="control">
+                        {{ form.password(class="input") }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.device_access.label(class="label") }}
+                    <div class="control">
+
+                        <div class="select">
+                            {{ form.device_access() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.console_enable.label(class="label") }}
+                    <div class="control">
+                        {{ form.console_enable() }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.devEui_list.label(class="label") }}
+                    <div class="control">
+
+                        <div class="select is-multiple">
+                            {{ form.devEui_list() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.command_list.label(class="label") }}
+                    <div class="control">
+
+                        <div class="select is-multiple">
+                            {{ form.command_list() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.unsolicited.label(class="label") }}
+                    <div class="control">
+                        {{ form.unsolicited() }}
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.direction.label(class="label") }}
+                    <div class="control">
+
+                        <div class="select">
+                            {{ form.direction() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-body">
+
+                <div class="field">
+                    {{ form.with_MAC_Commands.label() }}
+                    <div class="control">
+                        {{ form.with_MAC_Commands() }}
+                    </div>
+                </div>
+            </div>
+
+            {{ form.submit(class="button is-primary") }}
+        </form>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts%}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sign-Up/Login Form</title>
+{% endblock title %}
+{% block links %}
+{% endblock links %}
+{% block content %}
+<div class="container is-widescreen">
+    <div class="form">
+        <div class="box">
+            <div id="login" align="center">
+                {% set flash_msg = get_flashed_messages(with_categories=true) %}
+                {% if flash_msg %}
+                {% for category, message in flash_msg %}
+                <span class="{{ category }}">{{ message }}</span>
+                {% endfor %}
+                {% else %}
+                <h1 class="title">Вход в учетную запись</h1>
+                {% endif %}
+
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="field">
+                        {{ form.login.label(class="label is-medium") }}
+                        <div class="control">
+                            {{ form.login(class="input is-medium") }}
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        {{ form.password.label(class="label is-medium") }}
+                        <div class="control">
+                            {{ form.password(class="input is-medium") }}
+                        </div>
+                    </div>
+                    {{ form.submit(class="button is-medium is-primary") }}
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+{% endblock scripts %}

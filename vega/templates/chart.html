@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block links %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+{% endblock links %}
+
+{% block content %}
+{% set flash_msg = get_flashed_messages(with_categories=true) %}
+{% if flash_msg %}
+{% for category, message in flash_msg %}
+<span class="{{ category }}">{{ message }}</span>
+{% endfor %}
+{% endif %}
+
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<hr>
+<table class="table is-fullwidth">
+    <thead>
+    <tr>
+        {% for key in context.raw_data_list_keys %}
+        <th><abbr title="{{ key }}">{{ key }}</abbr></th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for key in context.raw_data_list %}
+    <tr>
+        {% for value in key.values() %}
+        <td>{{ value }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+$(document).ready(function(){
+var ctx = document.getElementById('myChart').getContext('2d');
+    let chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ context.labels|tojson }},
+        datasets: [{
+          label: 'Температура, *C',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: {{ context.data|tojson }},
+          tension: 0.1,
+      }]
+    }});
+});
+
+
+
+</script>
+{% endblock scripts %}

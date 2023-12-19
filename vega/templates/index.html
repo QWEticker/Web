@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Title</title>
+{% endblock title %}
+{% block links %}
+
+{% endblock links %}
+
+
+{% block content %}
+
+<nav class="navbar" role="navigation" data-target="navbarBasic" aria-label="main navigation">
+
+  <div id="navbarBasic" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" id="t1">
+        Подключенные устройства
+      </a>
+
+      <a class="navbar-item" id="t2">
+        Список пользователей
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+
+        <div class="buttons">
+            {% if context.is_can_create_user %}
+            <a class="button is-light" href="/create_user/">
+            Создать учетную запись
+          </a>
+            {% endif %}
+            {% if context.is_can_add_device %}
+            <a class="button is-light" href="/add_device/">
+            Добавить устройство
+          </a>
+            {% endif %}
+          <a class="button is-light" href="/logout/">
+            Выход
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% set flash_msg = get_flashed_messages(with_categories=true) %}
+{% if flash_msg %}
+    {% for category, message in flash_msg %}
+        <span class="{{ category }}">{{ message }}</span>
+    {% endfor %}
+{% endif %}
+<div class="box">
+    {% if context.devices_list %}
+        <table class="table is-bordered" id="tableDevs">
+      <thead>
+        <tr>
+            <th>devName</th>
+            <th>AppEui</th>
+            <th>devEui</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for dev_list in context.devices_list %}
+        <tr>
+            <td>{{ dev_list.devName }} </td>
+            <td>{{ dev_list.appEui }} </td>
+            <td><a href="dev_graph/{{ dev_list.devEui }}/48">{{ dev_list.devEui }}</a> </td>
+            {% if context.is_can_delete_device %}
+            <td>
+                <a href="delete_device/{{ dev_list.devEui }}">Удалить</a>
+            </td>
+            {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>
+        Подключенных устройств нет
+    </p>
+    {% endif %}
+
+    {% if context.user_list %}
+        <table class="table is-bordered hide" id="tableUsers">
+      <thead>
+        <tr>
+            <th>Login</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for user in context.user_list %}
+        <tr>
+            <td>{{ user.login }} </td>
+            {% if context.is_can_delete_user%}
+            <td>
+                <a href="delete_user/{{ user.login }}">Удалить</a>
+            </td>
+            {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>
+        Пользователей нет
+    </p>
+    {% endif %}
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+            <strong>Время: {{context.time}}</strong>
+        </p>
+        <p>
+            <strong>Город: {{context.city}}</strong>
+        </p>
+      </div>
+    </footer>
+</div>
+{% endblock content%}
+{% block scripts %}
+    <script>
+        t1.onclick = function() {
+          document.getElementById('tableDevs').classList.remove('hide');
+          document.getElementById('tableUsers').classList.add('hide');
+        }
+
+        t2.onclick = function() {
+          document.getElementById('tableUsers').classList.remove('hide');
+          document.getElementById('tableDevs').classList.add('hide');
+        }
+    </script>
+{% endblock scripts%}
+<!--<script>-->
+
+<!--    function saveToken(token) {-->
+<!--    sessionStorage.setItem('token', token['token']);-->
+<!--}-->
+
+
+<!--function getToken() {-->
+<!--    return fetch('api/reconnect/', {-->
+<!--        method: 'GET',-->
+<!--&lt;!&ndash;        body: JSON.stringify({&ndash;&gt;-->
+<!--&lt;!&ndash;            "cmd": "token_auth_req",&ndash;&gt;-->
+<!--&lt;!&ndash;            "token": session['token'],&ndash;&gt;-->
+<!--&lt;!&ndash;        }),&ndash;&gt;-->
+<!--    })-->
+<!--        .then((res) => {-->
+<!--            if (res.status === 204) {-->
+<!--&lt;!&ndash;                const token = res.json();&ndash;&gt;-->
+
+<!--&lt;!&ndash;                saveToken(JSON.stringify(token)); // сохраняем полученный токен в sessionStorage, с помощью функции, заданной ранее&ndash;&gt;-->
+<!--                return Promise.resolve()-->
+<!--            }-->
+<!--            return Promise.reject();-->
+<!--        });-->
+<!--        }-->
+
+<!--setInterval(getToken, 5000)-->
+
+<!--</script>-->

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block links %}
+	{% endblock links%}
+	{% if title %}
+	<title>{{title}}</title>
+	{% else %}
+	<title>Title</title>
+	{% endif %}
+	</head>
+	<body class="has-background-info-light">
+	{% include "_header.html" %}
+	{% block content %}
+	{% endblock %}
+	{% block scripts %}
+	{% endblock scripts%}
+	</body>
+</html>
